@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Canvas画板</title>
+<style>
+  canvas {
+  border: 1px solid #000;
+}
+</style>
+</head>
+<body>
+<canvas id="myCanvas" width="500" height="500"></canvas>
+
+<script>
+  // 获取画布元素和上下文
+  var canvas = document.getElementById("myCanvas");
+  var ctx = canvas.getContext("2d");
+
+  // 绘制基本图形
+  ctx.strokeStyle = "#000"; // 描边颜色
+  ctx.lineWidth = 2; // 描边宽度
+
+  ctx.beginPath();
+  ctx.moveTo(50, 50);
+  ctx.lineTo(200, 50);
+  ctx.lineTo(200, 200);
+  ctx.closePath();
+  ctx.stroke();
+
+  ctx.fillStyle = "#f00"; // 填充颜色
+  ctx.fillRect(250, 50, 100, 100);
+
+  ctx.fillStyle = "#00f";
+  ctx.beginPath();
+  ctx.arc(400, 200, 50, 0, Math.PI * 2);
+  ctx.closePath();
+  ctx.fill();
+
+  // 绘制文本
+  ctx.font = "20px Arial";
+  ctx.fillStyle = "#000";
+  ctx.fillText("Hello, Canvas!", 50, 300);
+
+  // 绘制图像
+  var image = new Image();
+  image.src = "path/to/image.jpg";
+  image.onload = function() {
+  ctx.drawImage(image, 250, 250, 200, 200);
+};
+
+  // 监听鼠标事件
+  canvas.addEventListener("mousedown", handleMouseDown);
+  canvas.addEventListener("mousemove", handleMouseMove);
+  canvas.addEventListener("mouseup", handleMouseUp);
+
+  var isDrawing = false;
+
+  function handleMouseDown(e) {
+  isDrawing = true;
+  ctx.beginPath();
+  ctx.moveTo(e.clientX, e.clientY);
+}
+
+  function handleMouseMove(e) {
+  if (isDrawing) {
+  ctx.lineTo(e.clientX, e.clientY);
+  ctx.stroke();
+}
+}
+
+  function handleMouseUp(e) {
+  isDrawing = false;
+  ctx.closePath();
+}
+
+  // 清空画布
+  function clearCanvas() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+}
+
+  // 撤销绘制
+  function undo() {
+  // 实现撤销操作的代码
+}
+
+  // 重做绘制
+  function redo() {
+  // 实现重做操作的代码
+}
+
+  // 保存绘制的图像
+  function saveImage() {
+  var dataURL = canvas.toDataURL("image/png");
+  var link = document.createElement("a");
+  link.href = dataURL;
+  link.download = "canvas_image.png";
+  link.click();
+}
+</script>
+</body>
+</html>
